@@ -48,7 +48,7 @@ window.CREATIONS = [
   { img: 'mc-dark-chocolate-54', cut: true, brand: 'Muscle Cheff', cat: 'bars', name: '54% Dark Chocolate', claim: 'high protein · keto', wide: true },
   { img: 'mc-raspberry-white-chocolate', cut: true, brand: 'Muscle Cheff', cat: 'bars', name: 'Raspberry White Chocolate', claim: 'high protein', wide: true },
   { img: 'mc-white-chocolate', cut: true, brand: 'Muscle Cheff', cat: 'bars', name: 'White Chocolate', claim: 'high protein', wide: true },
-  { img: 'mc-l-carnitine-apple-cinnamon', cut: true, brand: 'Muscle Cheff', cat: 'drinks', name: 'L-Carnitine Drink — Apple & Cinnamon', claim: 'vitamin B & C · detox', tall: true },
+  { img: 'mc-l-carnitine-apple-cinnamon', cut: true, brand: 'Muscle Cheff', cat: 'drinks', name: 'L-Carnitine Drink — Apple & Cinnamon', claim: 'vitamin B & C', tall: true },
   { img: 'mc-l-carnitine-cold-brew', cut: true, brand: 'Muscle Cheff', cat: 'drinks', name: 'L-Carnitine Cold Brew Coffee', claim: 'vitamin B · no sugar', tall: true },
   { img: 'mc-l-carnitine-coffee-7pack', cut: true, brand: 'Muscle Cheff', cat: 'drinks', name: 'L-Carnitine Coffee 7-Pack', claim: 'stevia · vitamin B' },
 ];
