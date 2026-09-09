@@ -1,10 +1,23 @@
-/* The dossier opens, products settle on the desk, and the process follows the reader.
+/* The portrait opens with its original rotating ring, and the process follows the reader.
    Nothing is hidden in CSS: content survives JS failure, slow fonts and reduced motion. */
 (() => {
   'use strict';
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const hero = document.querySelector('.hero');
-  const desk = document.querySelector('.selected');
+  const portrait = document.querySelector('.hero__portrait');
+  const motionToggle = document.querySelector('.motion-toggle');
+  let paused = false;
+  function syncPortraitMotion() {
+    document.documentElement.classList.toggle('portrait-motion', !preference.matches);
+    hero.classList.toggle('is-motion-paused', paused);
+    motionToggle.hidden = preference.matches;
+    motionToggle.setAttribute('aria-pressed', String(paused));
+    motionToggle.setAttribute('aria-label', paused ? 'Resume portrait animation' : 'Pause portrait animation');
+    motionToggle.querySelector('.motion-toggle__label').textContent = paused ? 'Resume motion' : 'Pause motion';
+    motionToggle.querySelector('.motion-toggle__icon').textContent = paused ? '▷' : 'Ⅱ';
+  }
+  motionToggle.addEventListener('click', () => { paused = !paused; syncPortraitMotion(); });
+  syncPortraitMotion();
   const process = document.querySelector('.process');
   const steps = Array.from(document.querySelectorAll('.steps li'));
   const readout = document.querySelector('.process__current');
@@ -22,7 +35,8 @@
     document.querySelectorAll('.hero__line > span').forEach((line, index) => {
       animate(line, [{ transform: 'translateY(105%) rotate(2deg)' }, { transform: 'translateY(0) rotate(0)' }], { duration: 1100, delay: index * 110 });
     });
-    document.querySelectorAll('.plate').forEach((plate, index) => {
+    animate(portrait.querySelector('.portrait-orbit'), [{ transform: 'scale(.94) rotate(-7deg)' }, { transform: 'scale(1) rotate(0)' }], { duration: 1400 });
+    document.querySelectorAll('.orbit-pack img').forEach((plate, index) => {
       const final = getComputedStyle(plate).transform;
       const pose = final === 'none' ? '' : final;
       animate(plate, [{ opacity: 0, transform: `${pose} translate3d(${index % 2 ? 45 : -35}px,90px,0) rotate(${index % 2 ? 14 : -12}deg) scale(.9)` }, { opacity: 1, transform: pose || 'none' }], { duration: 1400, delay: 180 + index * 140 });
@@ -64,11 +78,11 @@
   let active = -1;
   function update() {
     frame = 0;
-    if (!preference.matches && matchMedia('(min-width: 761px)').matches) {
+    if (!preference.matches && !paused && matchMedia('(min-width: 761px)').matches) {
       const heroBox = hero.getBoundingClientRect();
       const departure = Math.max(0, Math.min(1, -heroBox.top / Math.max(heroBox.height, 1)));
-      desk.style.transform = `translate3d(0,${departure * 45}px,0) rotate(${departure * 1.6}deg)`;
-    } else desk.style.transform = '';
+      portrait.style.transform = `translate3d(0,${departure * 18}px,0)`;
+    } else portrait.style.transform = '';
     const threshold = innerHeight * .48;
     let next = 0;
     steps.forEach((step, index) => { if (step.getBoundingClientRect().top <= threshold) next = index; });
@@ -87,6 +101,7 @@
   window.addEventListener('resize', schedule, { passive: true });
   preference.addEventListener('change', () => {
     running.forEach(animation => animation.cancel());
+    syncPortraitMotion();
     schedule();
   });
   update();
