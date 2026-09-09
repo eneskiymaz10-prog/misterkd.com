@@ -19,6 +19,7 @@
   let expanded = false;
   const isFiltered = () => activeBrand !== 'all' || category.value !== 'all';
   function renderArchive() {
+    grid.classList.toggle('is-selected', !isFiltered() && !expanded);
     let shown = 0;
     cards.forEach(card => {
       const matches = (activeBrand === 'all' || card.dataset.brand === activeBrand) && (category.value === 'all' || card.dataset.category === category.value);
@@ -32,6 +33,7 @@
     toggle.firstChild.textContent = expanded ? 'Back to selected creations ' : 'View all 45 creations ';
     status.textContent = isFiltered() ? `${shown} ${shown === 1 ? 'creation' : 'creations'} in this selection.` : expanded ? `All ${cards.length} creations. Take a closer look.` : `A selection of ${shown} from ${cards.length} creations. Open a product to explore.`;
     document.querySelector('.grid__empty').hidden = shown > 0;
+    document.dispatchEvent(new CustomEvent('kd:archive-render'));
   }
   filters.forEach(filter => filter.addEventListener('click', () => { activeBrand = filter.dataset.filter; renderArchive(); }));
   category.addEventListener('change', renderArchive);
@@ -57,6 +59,7 @@
     dialog.querySelector('.lightbox__name').textContent = card.querySelector('.card__name').textContent;
     dialog.querySelector('.lightbox__claim').textContent = card.querySelector('.card__claim').textContent;
     dialog.querySelector('.lightbox__position').textContent = `${sequence.indexOf(card) + 1} / ${sequence.length}`;
+    document.dispatchEvent(new CustomEvent('kd:product-change'));
   }
   function openProduct(card, selected = false) {
     if (!card || typeof dialog.showModal !== 'function') return false;
@@ -64,6 +67,7 @@
     sequence = selected ? cards : cards.filter(item => !item.hidden);
     fillProduct(card);
     dialog.showModal();
+    document.dispatchEvent(new CustomEvent('kd:product-open'));
     document.body.style.overflow = 'hidden';
     dialog.querySelector('.lightbox__close').focus();
     return true;
