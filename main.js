@@ -305,7 +305,19 @@
     $('.spec__name', dialog).textContent = name;
     $('.spec__brand', dialog).textContent = brand;
     $('.spec__format', dialog).textContent = pack.dataset.format;
-    $('.spec__claim', dialog).textContent = $('.label__claim', pack).textContent;
+    // Claim fragments ('15g protein', '· monk fruit') each stay on one line, as on the shelf ticket.
+    const claim = $('.spec__claim', dialog);
+    const fragments = $$('.cf', $('.label__claim', pack));
+    if (fragments.length) {
+      claim.replaceChildren();
+      fragments.forEach((cf, i) => {
+        const span = document.createElement('span');
+        span.className = 'cf';
+        span.textContent = cf.textContent;
+        if (i) claim.append(' ');
+        claim.append(span);
+      });
+    } else claim.textContent = $('.label__claim', pack).textContent;
     $('.spec__pos', dialog).textContent = `No. ${pack.dataset.no} · ${sequence.indexOf(pack) + 1} of ${sequence.length}`;
     placeFoot();
     emit('kd:product-change', { pack });

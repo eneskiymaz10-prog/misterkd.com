@@ -824,7 +824,7 @@ html:not(.js) .stage__mark { background: var(--tag); border-color: var(--tag); }
 
   .process__head .display { font-size: clamp(44px, 13vw, 64px); }
   .stages { grid-template-columns: minmax(0, 1fr); row-gap: 0; padding-left: 34px; position: relative; }
-  .stages::before { content: ""; position: absolute; left: 9px; top: 0; bottom: 0; width: 6px; background: rgb(245 244 240 / .2); }
+  .stages::before { content: ""; position: absolute; left: 9px; top: 0; bottom: 30px; width: 6px; background: rgb(245 244 240 / .2); } /* ends with the last stage's text (its 30px padding stays empty), so no stub shows under the sticky readout */
   .stage { border-top: 0 !important; padding: 0 0 30px; }
   .stage__mark { left: -34px; top: 0; }
   .stage h3 { margin-top: 4px; }
@@ -868,6 +868,13 @@ html:not(.js) .stage__mark { background: var(--tag); border-color: var(--tag); }
   .creations__head .display { font-size: 42px; }
   .chip { font-size: 12px; letter-spacing: .01em; font-stretch: 100%; padding-left: 12px; }
 }
+/* Below 360 px the paddles leave the aisle title ~70px: the title takes the full row, the count and paddles share the next. */
+@media (max-width: 359px) {
+  .aisle__title { grid-column: 2 / -1; }
+  .aisle__count { white-space: nowrap; align-self: center; }
+  .aisle__ctrl:not([hidden]) { grid-row: 2; align-self: center; }
+}
+@media (max-width: 339px) { .aisle__more { display: none; } } /* "11 creations" needs the room; the paddles and the peeking pack still say there is more */
 
 /* ---------- Forced colours: the bays lose their paint, so each board is drawn as a plain line ---------- */
 @media (forced-colors: active) {
