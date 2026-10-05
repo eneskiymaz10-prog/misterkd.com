@@ -1,1 +1,75 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Not found — Mister KD</title><meta name="robots" content="noindex"><link href="https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@400;800&display=swap" rel="stylesheet"><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0A0F24;color:#fff;font-family:Figtree,system-ui,sans-serif;text-align:center;padding:2rem}h1{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(3rem,10vw,8rem);margin:0 0 1rem;color:#D4FF3F;line-height:.9}a{display:inline-block;margin-top:1.5rem;padding:1rem 1.6rem;border-radius:999px;background:#D4FF3F;color:#0A0F24;font-weight:800;text-decoration:none;text-transform:uppercase;font-size:.85rem;letter-spacing:.06em}</style></head><body><main><h1>Wrong shelf.</h1><p>That page doesn't exist.</p><a href="/">Back to Mister KD</a></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Not found — Mister KD</title>
+<meta name="theme-color" content="#F5F4F0">
+<link rel="icon" href="/assets/favicon.png" type="image/png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/fonts/archivo-display-caps.woff2?v=b1" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css?v=b2">
+<style>
+  /* GitHub Pages serves this file for every missing path, so every URL here is root-absolute. No JavaScript. */
+  .nf { --sticker: 0px; --pause-room: 0px; min-height: calc(100svh - var(--header-h)); display: flex; flex-direction: column; justify-content: center; padding: clamp(24px, 4vh, 48px) var(--gutter) clamp(24px, 4vh, 40px); overflow: clip; } /* the sign's cords stop under the header */
+  .nf__inner { width: 100%; max-width: calc(var(--max) - 96px); margin-inline: auto; }
+  .nf__top { display: flex; padding-top: clamp(40px, 7vh, 80px); }
+  .nf .sign__title { font-size: clamp(56px, min(1.2rem + 7vw, 15vh), 132px); }
+  .nf .sign__intro { max-width: 26em; }
+  .nf .sign__foot { grid-template-columns: minmax(0, 1fr); }
+  .nf .sign__ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .nf .sign__ctas .btn { min-width: 0; }
+  /* The empty shelf: one board (the same ledge as every shelf on the site), a dashed empty facing, one ticket on the lip. */
+  .nf__shelf { position: relative; height: clamp(72px, 11vh, 110px); margin-top: clamp(24px, 4vh, 48px); margin-bottom: calc(var(--ledge) + 64px); } /* room for the ticket on the lip */
+  .nf__shelf::before { content: ""; position: absolute; left: calc(50% - 50vw); width: 100vw; bottom: 0; height: 44px; background: linear-gradient(to bottom, rgb(222 218 210 / 0), rgb(222 218 210 / .9)); }
+  .nf__shelf::after { content: ""; position: absolute; left: calc(50% - 50vw); width: 100vw; bottom: calc(-1 * var(--ledge)); height: var(--ledge); background: var(--ledge-paint); box-shadow: var(--ledge-drop); }
+  .nf__slot { position: absolute; left: clamp(4px, .8vw, 12px); bottom: calc(-1 * var(--sink) + 2px); width: clamp(96px, 12vw, 150px); height: calc(100% - 8px); border: 2px dashed rgb(17 19 24 / .26); border-bottom: 0; border-radius: 10px 10px 0 0; z-index: 1; }
+  .nf__ticket { position: absolute; left: clamp(4px, .8vw, 12px); top: calc(100% + var(--ledge)); display: grid; gap: 2px; padding: 9px 14px 11px; background: var(--paper); border-left: 4px solid var(--tag); border-radius: 0 0 3px 3px; box-shadow: var(--ticket-shadow); z-index: 1; }
+  .nf__no { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--label); }
+  .nf__name { font-size: 15px; font-weight: 700; font-stretch: 112%; line-height: 1.3; }
+  .nf__cta { white-space: nowrap; }
+  @media (max-width: 760px) {
+    .nf__top { padding-top: 0; }
+    .nf .sign { width: 100%; }
+    .nf .sign__eyebrow { flex-direction: row; justify-content: flex-start; align-items: center; gap: 10px; min-height: 0; max-width: none; font-size: 12px; }
+    .nf .sign__eyebrow::before { display: block; }
+    .nf .sign__title { font-size: clamp(52px, 17vw, 76px); }
+    .nf .sign__ctas { display: grid; }
+    .nf__cta { min-height: 44px; }
+  }
+  @media (forced-colors: active) { .nf__shelf::after { background: CanvasText; } .nf__slot { border-color: CanvasText; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="/"><img class="brand__badge" src="/derived/kd-badge-400.webp" alt="" width="400" height="400" decoding="async"><span class="brand__name">Mister KD</span></a>
+    <a class="btn btn--ink btn--sm nf__cta" href="/#contact">Work with KD <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+  </div>
+</header>
+<main class="nf" id="main">
+  <div class="nf__inner">
+    <div class="nf__top">
+      <div class="sign">
+        <span class="sign__hanger sign__hanger--l" aria-hidden="true"></span>
+        <span class="sign__hanger sign__hanger--r" aria-hidden="true"></span>
+        <p class="sign__eyebrow">Error 404</p>
+        <h1 class="sign__title"><span class="sign__line">Wrong</span> <span class="sign__line sign__line--tag">shelf.</span></h1>
+        <div class="sign__foot">
+          <p class="sign__intro">That page doesn’t exist. All 45 creations are on the shelves of the home page.</p>
+          <div class="sign__ctas">
+            <a class="btn btn--tag" href="/#creations">See my creations <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn--ghost-dark" href="/">Back to Mister KD</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nf__shelf" aria-hidden="true">
+      <span class="nf__slot"></span>
+      <span class="nf__ticket"><span class="nf__no">No. 404</span><span class="nf__name">Space on the shelf</span></span>
+    </div>
+  </div>
+</main>
+</body>
+</html>
