@@ -501,7 +501,7 @@
       'The product or project',
       String(data.get('message')),
       '',
-      'Prepared on misterkd.com. Saved on your device; nothing was sent from the page.',
+      'Sent from misterkd.com',
     ].join('\n');
   }
   function say(text, ok) {
@@ -510,10 +510,34 @@
     const r = briefStatus.getBoundingClientRect();
     if (r.bottom > innerHeight - 90 || r.top < 0) briefStatus.scrollIntoView({ behavior: smooth(), block: 'center' });
   }
+  // Email fallback: used until the Web3Forms key is in, and whenever online sending fails.
+  const inbox = (form.dataset.fallbackEmail || '').trim();
+  const fallback = $('.brief__fallback', form);
+  const fallbackLink = $('[data-fallback-mailto]', form);
+  const copyBtn = $('[data-copy-brief]', form);
+  let lastBrief = '';
+  const mailtoFor = data => {
+    let body = briefText(data);
+    if (body.length > 1800) body = `${body.slice(0, 1800)}…\n\n(Shortened: please paste the rest of your brief here.)`;
+    return `mailto:${inbox}?subject=${encodeURIComponent(`Brief for Kadir: ${data.get('intent')}`)}&body=${encodeURIComponent(body)}`;
+  };
+  function offerEmail(data) {
+    if (!inbox || !fallback) return;
+    lastBrief = briefText(data);
+    fallbackLink.href = mailtoFor(data);
+    if (!(navigator.clipboard && window.isSecureContext)) copyBtn.hidden = true;
+    fallback.hidden = false;
+  }
+  if (copyBtn) copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(lastBrief);
+      copyBtn.textContent = 'Copied';
+      setTimeout(() => { copyBtn.textContent = 'Copy my brief'; }, 2200);
+    } catch (err) { copyBtn.hidden = true; }
+  });
   if (configured()) {
     submitLabel.textContent = 'Send my brief';
     $('.brief__state', form).textContent = 'Your brief goes straight to Kadir.';
-    $('.brief__privacy', form).textContent = 'Your details are used only to reply to this enquiry.';
   }
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -524,18 +548,13 @@
     if (form.elements.botcheck.checked) return;
     const data = new FormData(form);
     if (!configured()) {
-      const url = URL.createObjectURL(new Blob([briefText(data)], { type: 'text/plain;charset=utf-8' }));
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'brief-for-kadir-demir.txt';
-      document.body.append(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1500);
-      say('Your brief is saved as brief-for-kadir-demir.txt. Nothing was sent from this page.', true);
+      offerEmail(data);
+      say(`Your email app should now open with your brief to ${inbox}. Nothing opened? Copy your brief and email it to Kadir.`, true);
+      location.href = mailtoFor(data);
       return;
     }
     submit.disabled = true;
+    fallback.hidden = true;
     say('Sending your brief…');
     try {
       const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(Object.fromEntries(data)) });
@@ -545,7 +564,8 @@
       form.reset();
       showStep(1, false);
     } catch (err) {
-      say('Your brief could not be sent. Your details are still here.');
+      say('Your brief could not be sent. Your details are still here, and you can email it to Kadir instead.');
+      offerEmail(data);
     } finally {
       submit.disabled = false;
     }

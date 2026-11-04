@@ -890,3 +890,42 @@ html:not(.js) .stage__mark { background: var(--tag); border-color: var(--tag); }
   .site-header { transition: none; }
   .hero { --pause-room: 0px; } /* no pause pill under reduced motion, so no room is kept for it */
 }
+
+/* ---------- Proof: stockists rail under the hero tickets, proof tickets in the brand bays (Nov 2026) ---------- */
+.stockists { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: clamp(14px, 1.8vw, 22px); }
+.stockists__k { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 12px; line-height: 1.4; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--label); }
+.stockists__k::before { content: ""; width: 18px; height: 4px; background: var(--tag); box-shadow: inset 0 0 0 1px rgb(17 19 24 / .12); flex: none; }
+/* Separators sit before each name; the list is pulled one separator-width left inside a clipping box,
+   so whichever name starts a line (on any width) has its separator clipped: a dot never leads a line. */
+.stockists__clip { overflow: hidden; padding-block: 2px; min-width: 0; }
+.stockists__list { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 0; margin-left: -1.2em; }
+.stockists__list li { font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: clamp(19px, 1.6vw, 24px); line-height: 1.1; letter-spacing: .01em; text-transform: uppercase; color: var(--ink); }
+.stockists__list li::before { content: "·"; content: "·" / ""; display: inline-block; width: 1.2em; text-align: center; color: var(--label); font-weight: 700; }
+.bay__proofs { display: grid; gap: 8px; justify-items: start; }
+.bay__proof { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding: 8px 12px 9px; background: var(--paper); border-left: 4px solid var(--tag); border-radius: 0 3px 3px 0; box-shadow: var(--ticket-shadow); font-size: 14px; line-height: 1.4; font-weight: 600; color: var(--ink); }
+.bay__proof-k { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--label); }
+@media (max-width: 760px) {
+  .stockists { gap: 6px 14px; margin-top: 14px; }
+  .stockists__k { flex-basis: 100%; }
+  .stockists__list li { font-size: 18px; }
+  .bay__proof { font-size: 13px; }
+}
+
+/* ---------- The brief: email fallback row (until online sending is on, and when a send fails) ---------- */
+.brief__fallback:not([hidden]) { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; }
+.brief__fallback .text-link { text-transform: none; letter-spacing: .01em; overflow-wrap: anywhere; }
+.brief__privacy a { color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.brief__privacy a:hover { text-decoration-color: var(--tag); text-decoration-thickness: 3px; }
+.brief__offline a { color: inherit; font-weight: 700; }
+
+/* ---------- Legal page: privacy.html (Nov 2026) ---------- */
+.legal { padding: clamp(36px, 6vw, 88px) var(--gutter) var(--section-y); }
+.legal__inner { max-width: 760px; margin-inline: auto; }
+.legal__title { margin-top: 16px; font-size: clamp(48px, 1rem + 5vw, 96px); }
+.legal__date { margin-top: 18px; font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--label); }
+.legal__body { margin-top: clamp(28px, 4vw, 44px); display: grid; gap: 14px; font-size: 17px; line-height: 1.6; }
+.legal__body h2 { margin-top: 22px; font-size: 21px; line-height: 1.25; font-weight: 800; font-stretch: 112%; }
+.legal__body ul { display: grid; gap: 10px; padding-left: 1.25em; list-style: disc; }
+.legal__body a { font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.legal__body a:hover { text-decoration-color: var(--tag); text-decoration-thickness: 3px; }
+.legal__note { padding: 12px 14px; background: var(--paper); border-left: 4px solid var(--tag); box-shadow: var(--ticket-shadow); font-size: 15px; }
