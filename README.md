@@ -12,3 +12,4 @@ These were made straight in this repo. Port them to `tools/misterkd/` before reg
 - **Cut-outs:** `bm-protein-pancake-8pack`, `bm-vegan-puff-barbecue`, `-vegetable` and `-chili-lime` now have `-cut` files (+ `derived/c/*-cut-{200..800}.webp`), are `cut: true` in `assets/creations.js` and use `pack--pouch` instead of the framed `pack--plate`.
 - **The brief:** sends through Web3Forms once a real `access_key` is in the form; until then (and whenever sending fails) it opens a pre-filled email to the address in the form's `data-fallback-email`, with a "Copy my brief" button.
 - **Privacy:** new `privacy.html`, linked from the brief and the footer.
+- **Analytics:** Cloudflare Web Analytics beacon (cookieless, account Eneskiymaz10@gmail.com's Account) before `</body>` in `index.html`, `privacy.html` and `404.html`; the privacy notice says so.
