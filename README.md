@@ -10,6 +10,6 @@ These were made straight in this repo. Port them to `tools/misterkd/` before reg
 
 - **Proof:** the hero's second ticket is now the Expo West 2026 award (was "45 creations on the shelf"); a "My creations are stocked at" rail (Migros · Trendyol · Hepsiburada · Decathlon Hong Kong) sits under the tickets; the Smarter Snacks and Bite & More bays carry `bay__proof` tickets.
 - **Cut-outs:** `bm-protein-pancake-8pack`, `bm-vegan-puff-barbecue`, `-vegetable` and `-chili-lime` now have `-cut` files (+ `derived/c/*-cut-{200..800}.webp`), are `cut: true` in `assets/creations.js` and use `pack--pouch` instead of the framed `pack--plate`.
-- **The brief:** sends through Web3Forms once a real `access_key` is in the form; until then (and whenever sending fails) it opens a pre-filled email to the address in the form's `data-fallback-email`, with a "Copy my brief" button.
+- **The brief:** sends through FormSubmit (AJAX endpoint in the form's `data-endpoint`, hidden `_subject` / `_template`; the script adds `_replyto` and `_captcha=false`). Until kadir@biteandmore.com has clicked FormSubmit's "Activate Form" email, and whenever a send fails, it hands the brief over by email (`data-fallback-email`) with a "Copy my brief" button. Remove `data-endpoint` to go back to email-only.
 - **Privacy:** new `privacy.html`, linked from the brief and the footer.
 - **Analytics:** Cloudflare Web Analytics beacon (cookieless, account Eneskiymaz10@gmail.com's Account) before `</body>` in `index.html`, `privacy.html` and `404.html`; the privacy notice says so.

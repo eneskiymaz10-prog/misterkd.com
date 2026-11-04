@@ -390,10 +390,9 @@
   const submitLabel = $('.brief__submit-label', submit);
   const briefStatus = $('.brief__status', form);
   const briefTitle = $('#contact-title');
-  const configured = () => {
-    const key = form.elements.access_key.value.trim();
-    return key !== '' && key !== 'WEB3FORMS_ACCESS_KEY';
-  };
+  // Online sending: FormSubmit (AJAX endpoint in data-endpoint). Without one, the brief goes out by email.
+  const endpoint = (form.dataset.endpoint || '').trim();
+  const configured = () => endpoint !== '';
   let stepNow = 1;
   form.classList.add('is-stepped');
   $('.brief__steps').hidden = false;
@@ -510,7 +509,7 @@
     const r = briefStatus.getBoundingClientRect();
     if (r.bottom > innerHeight - 90 || r.top < 0) briefStatus.scrollIntoView({ behavior: smooth(), block: 'center' });
   }
-  // Email fallback: used until the Web3Forms key is in, and whenever online sending fails.
+  // Email fallback: used when no endpoint is set, before FormSubmit is activated, and whenever a send fails.
   const inbox = (form.dataset.fallbackEmail || '').trim();
   const fallback = $('.brief__fallback', form);
   const fallbackLink = $('[data-fallback-mailto]', form);
@@ -557,9 +556,19 @@
     fallback.hidden = true;
     say('Sending your brief…');
     try {
-      const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(Object.fromEntries(data)) });
-      const result = await response.json();
-      if (!response.ok || !result.success) throw new Error('Delivery failed');
+      const payload = Object.fromEntries(data);
+      payload._replyto = data.get('email');
+      payload._captcha = 'false';
+      const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(payload) });
+      const result = await response.json().catch(() => ({}));
+      const sent = response.ok && String(result.success) === 'true';
+      if (!sent && /activat/i.test(String(result.message || ''))) {
+        // The inbox has not confirmed FormSubmit yet: hand the brief over by email instead, without an error.
+        offerEmail(data);
+        say('One more step: tap “Email kadir@biteandmore.com” below to send your brief from your email app.', true);
+        return;
+      }
+      if (!sent) throw new Error('Delivery failed');
       say('Thank you. Your brief has been sent to Kadir.', true);
       form.reset();
       showStep(1, false);
