@@ -14,3 +14,4 @@ These were made straight in this repo. Port them to `tools/misterkd/` before reg
 - **Privacy:** new `privacy.html`, linked from the brief and the footer.
 - **Analytics:** Cloudflare Web Analytics beacon (cookieless, account Eneskiymaz10@gmail.com's Account) before `</body>` in `index.html`, `privacy.html` and `404.html`; the privacy notice says so.
 - **4 Nov, later:** FormSubmit returned Cloudflare 522 (origin down) from Bangkok during setup, so `data-endpoint` was removed again: both forms run in email mode (pre-filled email to `data-fallback-email` + copy button). The script still supports an AJAX endpoint in `data-endpoint` (FormSubmit format; Web3Forms works too with an `access_key` hidden input and `subject`). Update the privacy notice when one is switched on.
+- **5 Nov:** removed the YOUNITED samples photo (and the `bay--feature` layout) from the YOUNITED bay; `assets/brand/younited-samples.webp` and `derived/younited-samples-450.webp` are now unused.
