@@ -565,7 +565,7 @@
       if (!sent && /activat/i.test(String(result.message || ''))) {
         // The inbox has not confirmed FormSubmit yet: hand the brief over by email instead, without an error.
         offerEmail(data);
-        say('One more step: tap “Email kadir@biteandmore.com” below to send your brief from your email app.', true);
+        say(`One more step: tap “Email ${inbox}” below to send your brief from your email app.`, true);
         return;
       }
       if (!sent) throw new Error('Delivery failed');
